@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		<meta name="description" content="">
+		<meta name="author" content="">
+		<link rel="icon" href="../../favicon.ico">
+
+		<?php echo $__env->yieldContent('title'); ?>
+		<!-- Bootstrap core CSS -->
+		<link href="/dist/css/bootstrap.min.css" rel="stylesheet">
+		<link href="/css/sticky-footer.css" rel="stylesheet">
+		<?php echo $__env->yieldContent('customcss'); ?>
+	</head>
+	<body>		
+		<div id="container">
+			<?php echo $__env->yieldContent('navbar'); ?>
+		</div>	
+		
+		<div id="container">
+		<div id="wrapper">
+			<div id="page-wrapper">
+				<div id="content-fluid">
+					<?php echo $__env->yieldContent('content'); ?>
+				</div>
+				<?php echo $__env->yieldContent('footer'); ?>
+			</div>
+		</div>
+		</div>
+		
+		<?php /*<?php echo $__env->yieldContent('modal'); ?>*/ ?>
+		
+		<!-- Bootstrap core JavaScript
+    ================================================== -->
+		<!-- Placed at the end of the document so the pages load faster -->
+		<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>-->
+		<script src="/js/jquery/1.11.3/jquery.min.js"></script>
+		<script src="/dist/js/bootstrap.min.js"></script>
+		<!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+		<script src="/assets/js/vendor/holder.min.js"></script>
+		<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+		<script src="/assets/js/ie10-viewport-bug-workaround.js"></script>
+
+		<?php echo $__env->yieldContent('customjs'); ?>
+	</body>
+</html>

@@ -1,0 +1,31 @@
+<?php $__env->startSection('title'); ?>
+    <title>Play Melodies</title>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+
+<div id="page-wrapper">
+	<div class="container-fluid">
+		<h1 class="page-header">Now Playing :: <?php echo e($track->track_name); ?></h1>
+		<div class="row">
+			<div class="well col-lg-4">
+				<audio controls preload="none">
+					<source src="/tracks/<?php echo e($track->track_id); ?>.mp3" type="audio/mpeg" />
+					<a href="/tracks/<?php echo e($track->track_id); ?>.mp3">song</a>
+				</audio>
+				<hr/>
+				<p>
+					<p><strong>Title</strong>: <?php echo e($track->track_name); ?></p>
+					<p><strong>Artist</strong>: <?php echo e($track->artist_name); ?></p>
+					<p><strong>Album</strong>: <?php echo e($track->album_name); ?></p>
+				</p>
+			</div>
+		</div>
+	</div>
+</div>
+	
+
+<?php $__env->stopSection(); ?>
+
+
+<?php echo $__env->make('dashboardLayout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

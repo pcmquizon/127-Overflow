@@ -1,0 +1,30 @@
+after ko mag new project via composer
+
+
+update app_key after doing php artisan key:generate in
+	/config/app.php
+		'key' => env('APP_KEY', '8MMrEjSPwAH6emoCFMrRSZMNmGWmmetF')
+	.env
+		APP_KEY=8MMrEjSPwAH6emoCFMrRSZMNmGWmmetF
+
+update .env [hidden by default]
+	DB_HOST=localhost
+	DB_DATABASE=projectSpotify
+	DB_USERNAME=postgres
+	DB_PASSWORD=spongecola	
+
+update /config/database.php
+ 	default db to use:
+		'default' => env('DB_CONNECTION', 'pgsql'),
+
+	db connection details:
+		'pgsql' => [
+	            'driver'   => 'pgsql',
+	            'host'     => env('DB_HOST', 'localhost'),
+	            'database' => env('DB_DATABASE', 'spotify'),
+	            'username' => env('DB_USERNAME', 'postgres'),
+	            'password' => env('DB_PASSWORD', 'spongecola'),
+	            'charset'  => 'utf8',
+	            'prefix'   => '',
+	            'schema'   => 'public',
+	        ],

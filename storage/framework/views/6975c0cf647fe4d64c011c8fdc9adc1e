@@ -1,0 +1,47 @@
+<?php $__env->startSection('title'); ?>
+    <title>My playlists</title>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+
+<?php /*dd($playlists)*/ ?>
+
+<?php if($playlists): ?> 
+	<h1> Playlists </h1>
+	
+	<hr class="featurette-divider" style="margin-top:20px; margin-bottom:20px;">
+
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Added on</th>
+			</tr>
+		</thead>
+		<tbody>
+			
+			<?php foreach($playlists as $playlist): ?>
+				<tr>
+					<td>
+						<a href="/playlist/<?php echo e($playlist->id); ?>/details">
+							<?php echo e($playlist->name); ?>
+
+						</a>						
+					</td>					
+					<td>
+						<?php echo e($playlist->created_at); ?>
+
+					</td>
+				</tr>
+			<?php endforeach; ?>
+
+		</tbody>
+	</table>
+
+<?php else: ?> <h1> No playlists to view yet, <a href="/playlist/create">create</a> one now! </h1>
+
+<?php endif; ?>
+
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('dashboardLayout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

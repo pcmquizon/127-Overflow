@@ -1,0 +1,12 @@
+<?php $__env->startSection('title'); ?>
+    <title>User deactivated</title>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+
+	<h2> User Deactivated </h2>
+	
+	<a href="/user/show/approved"> Back to approved user page.</a>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('dashboardLayout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

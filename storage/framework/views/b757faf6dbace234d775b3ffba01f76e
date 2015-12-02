@@ -1,0 +1,65 @@
+	
+
+
+<?php $__env->startSection('title'); ?>
+	<title>Edit Artist</title>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+
+<div id="page-wrapper">
+	<div class="container-fluid">
+		<h1 class="page-header">
+			
+			Edit <?php echo e($artist->name); ?>
+
+		</h1>
+			<div class="row">
+				<div class="col-md-8 col-sm-6 col-xs-12">
+
+
+				<?php echo Form::open(
+				    array(
+				        'url' => "artist/".$artist->id, 
+				        'class' => 'form', 
+				        'method' => 'PATCH',
+				        'files' => true,
+				        'enctype' => 'multipart/form-data'));; ?>
+
+
+
+					<div class="form-group">
+						<?php echo Form::label('name','Artist Name:', ['class'=>'col-lg-3 control-label']); ?>	
+						<div class="col-lg-8">
+							<?php echo Form::text('name', $artist->name, ['class'=>'form-control'] ); ?>
+
+						</div>
+					</div>
+
+					<div class="form-group">
+						<?php echo Form::label('name','Biography', ['class'=>'col-lg-3 control-label']); ?>			
+						<div class="col-lg-8">
+							<?php echo Form::textarea('biography', $artist->biography, ['class'=>'form-control'] ); ?>
+
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-md-3 control-label"></label>
+						<div class="col-md-8">
+							<?php echo Form::submit('Save changes', ['class'=>'btn btn-primary']); ?>
+
+							<span></span><span></span>
+							<a href="/artist/view/"><input class="btn btn-danger" type="button" value="Cancel (artist not known)" /></a>
+							<?php echo Form::close(); ?>
+
+						</div>
+					</div>
+				</div>
+			</div>
+	</div>
+</div>
+
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('dashboardLayout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

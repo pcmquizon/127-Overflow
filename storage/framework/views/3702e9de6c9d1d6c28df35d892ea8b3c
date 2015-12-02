@@ -1,0 +1,35 @@
+<?php $__env->startSection('title'); ?>
+    <title>Delete track</title>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+<?php if($tracks): ?> 
+	<h1> Tracks </h1>
+	
+	<hr class="featurette-divider" style="margin-top:20px; margin-bottom:20px;">
+
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Artist</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			<?php foreach($tracks as $track): ?>
+				<tr>
+					<td><?php echo e($track->name); ?></td>
+					<td><?php echo e("Artist"); ?></td>
+					<td><a href="/track/remove/<?php echo e($track->id); ?>"><i class="glyphicon glyphicon-trash"></i>  Delete</td>
+				</tr>
+			<?php endforeach; ?>
+		</tbody>
+	</table>
+
+<?php else: ?> <h1> No track to remove yet, <a href="/track/create">create</a> one now! </h1>
+
+<?php endif; ?>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('dashboardLayout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

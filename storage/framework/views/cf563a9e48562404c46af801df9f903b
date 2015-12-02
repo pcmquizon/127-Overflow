@@ -1,0 +1,65 @@
+<?php $__env->startSection('title'); ?>
+	<title>Artist Profile</title>
+<?php $__env->stopSection(); ?>
+
+<?php /*template from: http://bootstrap.snipplicious.com/snippet/19/edit-profile-page*/ ?>
+
+<?php $__env->startSection('content'); ?>
+
+<style>
+	label.col-lg-3.control-label{
+		padding-top: 0px;
+	}
+</style>
+
+<div id="page-wrapper">
+	<div class="container-fluid">
+		
+		<div class="row" style="margin-bottom:15px !important;">
+			<h1 class="page-header"><?php echo e($artist_data->artist_name); ?></h1>
+			<?php if(Auth::user()->role === 'admin'): ?>
+				<i class="glyphicon glyphicon-edit"></i><a href="/artist/<?php echo e($artist_data->artist_id); ?>/edit"> Edit artist</a>
+			<?php endif; ?>
+		</div>
+		
+			<div class="row">	
+				<div class="col-lg-8 col-md-6 col-sm-12 personal-info">				
+
+					<form class="form-horizontal" role="form">
+						<div class="form-group">
+							<label class="col-lg-3 control-label">Artist name:</label>
+							<div class="col-lg-8">
+								<?php echo e($artist_data->artist_name); ?>
+
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-3 control-label">Biography:</label>
+							<div class="col-lg-8">
+								<?php echo e($artist_data->biography); ?>
+
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-3 control-label">Melodies recorded:</label>
+							<div class="col-lg-8">
+								<ul style="list-style:none; padding:0px;">
+									<?php foreach($tracks as $track): ?>
+										<li>
+											<a href="/track/<?php echo e($track->track_id); ?>/details/">
+												<?php echo e($track->track_name); ?>
+
+											</a>
+										</li>
+									<?php endforeach; ?>
+								</ul>
+							</div>
+						</div>
+				</div>
+			</div>
+	</div>
+</div>
+
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('dashboardLayout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

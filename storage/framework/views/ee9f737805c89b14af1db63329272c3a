@@ -1,0 +1,58 @@
+<?php $__env->startSection('title'); ?>
+    <title>Edit Password</title>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+<div id="page-wrapper">
+	<div class="container-fluid">
+	<h1 class="page-header">Edit Password</h1>
+		<div class="row">
+			<div class="col-md-8 col-sm-6 col-xs-12 personal-info">
+				<?php echo Form::open(['url' => '/user/profile/edit/password', 'method' => 'post', 'class' => 'form-horizontal']); ?>
+
+
+				<div class="form-group">
+					<?php echo Form::label('password','Old Password: ', ['class'=>'col-lg-3 control-label']); ?>						
+					<div class="col-lg-8">
+						<?php echo Form::password('old_password', ['class'=>'form-control'] ); ?>
+
+						<?php /*$msg*/ ?>
+					</div>
+				</div>
+
+				<div class="form-group" <?php echo e($errors->has('password') ? 'has-error' : ''); ?>>
+					<?php echo Form::label('password','Password: ', ['class'=>'col-lg-3 control-label']); ?>						
+					<div class="col-lg-8">
+						<?php echo Form::password('password', ['class'=>'form-control'] ); ?>
+
+						<?php echo $errors->first('password', '<span class="help-block">:message</span>'); ?>
+
+					</div>
+				</div>
+
+				<div class="form-group"  <?php echo e($errors->has('password_confirmation') ? 'has-error' : ''); ?>>
+					<?php echo Form::label('password','Confirm Password: ', ['class'=>'col-lg-3 control-label']); ?>						
+					<div class="col-lg-8">
+						<?php echo Form::password('password_confirmation', ['class'=>'form-control'] ); ?>
+
+						<?php echo $errors->first('password_confirmation', '<span class="help-block">:message</span>'); ?>
+
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<label class="col-md-3 control-label"></label>
+					<div class="col-md-8">
+						<input class="btn btn-primary" value="Save Changes" type="submit">
+						<span></span><span></span>
+						<a href="/user/profile/edit"><input class="btn btn-danger" type="button" value="Back to edit profile" /></a>
+						<?php echo Form::close(); ?>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('dashboardLayout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

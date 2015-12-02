@@ -1,0 +1,81 @@
+<?php
+
+use Illuminate\Database\Seeder;
+
+class InitUsersTableSeeder extends Seeder
+{
+    /**
+     * Run the database seeds.
+     *
+     * @return void
+     */
+    public function run()
+    {
+
+    	//run with php artisan db:seed --class=AdminUsersTableSeeder
+        DB::table('users')->insert([ //,
+                'username' => 'overflow',
+		        'firstName' => 'Jaime',
+		        'lastName' => 'Canicula',
+		        'email' => 'canicula@gmail.com',
+		        'password' => bcrypt('1234'),
+		        'created_at' => new dateTime('2015-11-15 00:00:00'),
+		        'updated_at' => new dateTime('now'),
+		        'role' => 'admin',
+            	'status' => 'approved',
+		        'remember_token' => str_random(10),
+            ]);
+
+        DB::table('users')->insert([ //,
+                'username' => 'pcmquizon',
+		        'firstName' => 'Pia',
+		        'lastName' => 'Canicula',
+		        'email' => 'quizon@gmail.com',
+		        'password' => bcrypt('1234'),
+		        'created_at' => new dateTime('2015-11-15 00:00:00'),
+		        'updated_at' => new dateTime('now'),
+		        'role' => 'admin',
+            	'status' => 'approved',
+		        'remember_token' => str_random(10),
+            ]);
+
+		DB::table('users')->insert([ //,
+                'username' => 'testuser1',
+		        'firstName' => 'Juana',
+		        'lastName' => 'dela Cruz',
+		        'email' => 'alpha@testuser.com',
+		        'password' => bcrypt('123456'),
+		        'created_at' => new dateTime('2015-11-16 00:00:00'),
+		        'updated_at' => new dateTime('now'),
+		        'role' => 'user',
+            	'status' => 'pending',
+		        'remember_token' => str_random(10),
+            ]);
+
+		DB::table('users')->insert([ //,
+                'username' => 'testuser2',
+		        'firstName' => 'Juan',
+		        'lastName' => 'dela Cruz',
+		        'email' => 'beta@testuser.com',
+		        'password' => bcrypt('123456'),
+		        'created_at' => new dateTime('2015-11-17 00:00:00'),
+		        'updated_at' => new dateTime('now'),
+		        'role' => 'user',
+            	'status' => 'pending',
+		        'remember_token' => str_random(10),
+            ]);
+            
+		DB::table('users')->insert([ //,
+                'username' => 'testuser3',
+		        'firstName' => 'ICS',
+		        'lastName' => 'PC Lab',
+		        'email' => 'useruser@testuser.com',
+		        'password' => bcrypt('123456'),
+		        'created_at' => new dateTime('2015-11-18 00:00:00'),
+		        'updated_at' => new dateTime('now'),
+		        'role' => 'user',
+            	'status' => 'pending',
+		        'remember_token' => str_random(10),
+            ]);
+    }
+}

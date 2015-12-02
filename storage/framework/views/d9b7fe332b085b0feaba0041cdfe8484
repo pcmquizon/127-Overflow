@@ -1,0 +1,44 @@
+<?php $__env->startSection('title'); ?>
+    <title>View artists</title>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+
+<?php /*dd($artists)*/ ?>
+
+<?php if($artist_data): ?> 
+	<h1> Artists </h1>
+	
+	<hr class="featurette-divider" style="margin-top:20px; margin-bottom:20px;">
+
+		<?php foreach($artist_data as $artist_entry): ?>
+
+		<article>
+
+				<a href="/artist/<?php echo e($artist_entry->artist_id); ?>/details">
+					<h3><?php echo e($artist_entry->artist_name); ?></h3>
+				</a>
+				<?php if( \Auth::user()->role==='admin' ): ?>
+					<em><small>Added on <?php echo e($artist_entry->created_at); ?></small></em>
+				<?php endif; ?>
+
+				<p>
+					<?php if( $artist_entry->biography ): ?>
+						<p><?php echo e($artist_entry->biography); ?></p>
+					<?php else: ?>
+						<p>Currently no known information about the artist.</p>
+					<?php endif; ?>	
+				</p>
+
+			<hr class="featurette-divider" style="margin-top:0px; margin-bottom:20px;">
+		</article>
+
+		<?php endforeach; ?>
+
+
+<?php else: ?> <h1> No artists to view yet, <a href="/artist/create">add</a> one now! </h1>
+
+<?php endif; ?>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('dashboardLayout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

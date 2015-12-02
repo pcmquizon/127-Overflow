@@ -1,0 +1,12 @@
+@font-face {
+    font-family: Average;
+    src: url(../fonts/Fjalla-One-and-Average/Average-Regular.ttf);
+}
+
+@font-face {
+    font-family: FjallaOne;
+    src: url(../fonts/Fjalla-One-and-Average/FjallaOne-Regular.ttf);
+}
+
+h1 { font-family: 'FjallaOne', Arial, sans-serif; font-weight: 400; }
+body { font-family: 'Average', Arial, serif; font-weight: 400; }

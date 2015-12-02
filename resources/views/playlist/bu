@@ -1,0 +1,479 @@
+@extends('dashboardLayout')
+
+@section('title')
+	<title>View Playlist</title>
+@stop
+
+@section('custommeta')
+	<meta name="_token" content="{!! csrf_token() !!}"/>
+@endsection
+
+
+@section('content')
+<style type="text/css">
+
+	.active a{
+		/*color:#5DB0E6;*/
+		text-decoration:none;
+	}
+	#playlist,audio{
+		/*background:#666;
+		width:40%;*/
+	}
+	#playlist li a{
+		/*color:#eeeedd;*/
+		/*background:#333;*/
+		display:block;
+		margin-top:1px;
+	}	
+	li a:hover{
+		text-decoration:none;
+	}
+
+	label.col-lg-3.control-label{
+		padding-top: 0px;
+	}
+
+
+/* @group player */
+
+.player {
+	display: block;
+	height: 48px;
+	width: 400px;
+	/*position: absolute;*/
+	top: 349px;
+	left: -1px;
+	-webkit-box-shadow: 0 -1px 0 rgba(20, 30, 40, .75);
+	-moz-box-shadow: 0 -1px 0 rgba(20, 30, 40, .75);
+	-o-box-shadow: 0 -1px 0 rgba(20, 30, 40, .75);
+	box-shadow: 0 -1px 0 rgba(20, 30, 40, .75);
+	border-top: 1px solid #c2cbd4;
+	border-bottom: 1px solid #283541;
+		border-left: 1px solid #283541;
+		border-right: 1px solid #283541;
+	background: #939eaa;
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(rgba(174, 185, 196, .9)), to(rgba(110, 124, 140, .9)), color-stop(.5, rgba(152, 164, 176, .9)),color-stop(.501, rgba(132, 145, 159, .9)));
+	background: -moz-linear-gradient(top, rgba(174, 185, 196, .9), rgba(152, 164, 176, .9) 50%, rgba(132, 145, 159, .9) 50.1%, rgba(110, 124, 140, .9));
+	background: linear-gradient(top, rgba(174, 185, 196, .9), rgba(152, 164, 176, .9) 50%, rgba(132, 145, 159, .9) 50.1%, rgba(110, 124, 140, .9));
+	cursor: default;
+}
+
+#playtoggle {
+	position: absolute;
+	/*top: 9px;
+	left: 10px;*/
+		top: 28px;
+		left: 25px;
+	width: 30px;
+	height: 30px;
+	background: url(/img/player.png) no-repeat -30px 0;
+	cursor: pointer;
+}
+
+#playtoggle.playing {
+	background-position: 0 0;
+}
+
+#playtoggle:active {
+	/*top: 10px;*/
+		top: 29px;
+}
+
+#timeleft {
+	line-height: 48px;
+	position: absolute;
+	/*top: 0;*/
+		top: 18px;
+	right: 0;
+	width: 50px;
+	text-align: center;
+	/*font-size: 11px;*/
+		font-size: 15px;
+	font-weight: bold;
+	color: #fff;
+	text-shadow: 0 1px 0 #546374;
+}
+
+#wrapper #timeleft {
+	right: 35px;
+}
+
+#gutter {
+	position: absolute;
+	/*top: 19px;
+	left: 50px;*/
+		top: 40px;
+		left: 60px;
+	right: 50px;
+	height: 6px;
+	padding: 2px;
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	-o-border-radius: 5px;
+	border-radius: 5px;
+	background: #546374;
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#242f3b), to(#516070));
+	background: -moz-linear-gradient(top, #242f3b, #516070);
+	background: linear-gradient(top, #242f3b, #516070);
+	-webkit-box-shadow: 0 1px 4px rgba(20, 30, 40, .75) inset, 0 1px 0 rgba(176, 187, 198, .5);
+	-moz-box-shadow: 0 1px 4px rgba(20, 30, 40, .75) inset, 0 1px 0 rgba(176, 187, 198, .5);
+	-o-box-shadow: 0 1px 4px rgba(20, 30, 40, .75) inset, 0 1px 0 rgba(176, 187, 198, .5);
+	box-shadow: 0 1px 4px rgba(20, 30, 40, .75) inset, 0 1px 0 rgba(176, 187, 198, .5);
+}
+
+#wrapper #gutter {
+	right: 90px;
+}
+
+#loading {
+	background: #fff;
+	background: #939eaa;
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#eaeef1), to(#c7cfd8));
+	background: -moz-linear-gradient(top, #eaeef1, #c7cfd8);
+	background: linear-gradient(top, #eaeef1, #c7cfd8);
+	-webkit-box-shadow: 0 1px 0 #fff inset, 0 1px 0 #141e28;
+	-moz-box-shadow: 0 1px 0 #fff inset, 0 1px 0 #141e28;
+	-o-box-shadow: 0 1px 0 #fff inset, 0 1px 0 #141e28;
+	box-shadow: 0 1px 0 #fff inset, 0 1px 0 #141e28;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	-o-border-radius: 3px;
+	border-radius: 3px;
+	display: block;
+	float: left;
+	min-width: 6px;
+	height: 6px;
+}
+
+#handle {
+	position: absolute;
+	/*top: -5px;*/
+		top: -7px;
+	left: 0;
+	width: 20px;
+	height: 20px;
+	margin-left: -10px;
+	background: url(/img/player.png) no-repeat -65px -5px;
+	cursor: pointer;
+}
+/* @end */
+
+</style>
+
+
+
+<div id="page-wrapper">
+	<div class="container-fluid">
+		
+		<div class="row" style="margin-bottom:15px !important;">
+			<h1 class="page-header">{{$playlist_data->playlist_name}}</h1>
+			<ul class="list-inline" style="margin-top:30px;">
+				<li class="alert">
+					<i class="glyphicon glyphicon-trash"></i><a href="/playlist/{{$playlist_data->playlist_id}}/delete"> Delete Playlist</a>
+
+					{{--/playlist/{{$playlist_data->playlist_id}}/--}}
+				</li>
+				<li>
+					<i class="glyphicon glyphicon-edit"></i><a href="/playlist/{{$playlist_data->playlist_id}}/edit"> Edit Playlist</a>
+				</li>
+				<li>
+					<small><i class="glyphicon glyphicon-plus"></i></small><a href="/playlist/{{$playlist_data->playlist_id}}/add"> Add Songs to Playlist</a>
+				</li>
+				<li>
+				<small><i class="glyphicon glyphicon-minus"></i></small><a href="/playlist/{{$playlist_data->playlist_id}}/remove"> Remove Songs from Playlist</a>
+			</li>
+			</ul>
+		</div>
+		
+			<div class="row">	
+				<div class="col-lg-8 col-md-6 col-sm-12 personal-info">				
+
+					<form class="form-horizontal" role="form">
+						<div class="form-group">
+							<label class="col-lg-3 control-label">Playlist name:</label>
+							<div class="col-lg-8">
+								{{$playlist_data->playlist_name}}
+							</div>
+						</div>
+						@if($tracks)
+							<div class="form-group">
+								<label class="col-lg-3 control-label">Playlist contents:</label>
+								<div class="col-lg-8">
+									<ul style="list-style:none; padding:0px;">
+										@foreach($tracks as $track)
+											@if($track->path)
+												<li>
+													<a href="/track/{{$track->path}}/details/">
+														{{$track->track_name}}
+													</a>
+												</li>
+											@else
+												<li>
+													No melodies yet.
+												</li>
+											@endif
+										@endforeach
+									</ul>
+								</div>
+							</div>
+						@endif
+					</form>
+				</div>
+			</div>
+
+			<div class="well col-lg-4">
+				@if($track->path)
+	
+				<div>
+					<button class="play">Play</button>
+					<button class="pause">Pause</button>
+				</div>
+
+					<?php $ctr= 0; ?>
+					<hr style="margin: 10px 0px;"/>
+					<p>
+						<ul id="playlist" style="list-style:none; padding:0px; margin:0px;">
+				        	@foreach($tracks as $track)
+				        		<p>
+						       @if($ctr==0)	<li class="active">
+						       @else <li>
+						       @endif 
+									<a class="track" href="/tracks/{{$track->path}}.mp3">{{$track->track_name}}</a>
+								</li>
+									<?php $ctr++;?>
+								</p>
+						    @endforeach
+						</ul>
+					</p>
+				@else
+					No melodies yet, <a href="/playlist/{{$playlist_data->playlist_id}}/add">add</a> melodies now!
+				@endif
+			</div>
+
+
+
+	</div>
+</div>
+@stop
+
+
+@section('customjs')
+
+<script type="text/javascript">
+
+	var audio;
+	var playlist;
+	var tracks;
+	var current;
+
+
+	init();
+
+	$(document).on("click", ".alert", function(e) {
+		e.preventDefault();
+	    bootbox.confirm("Are you sure?", function(result) {
+		  console.log("Confirm result: "+result);
+		  if(result==true){
+		  	//return true;
+		  	
+		  	// mag ajax ka dito //
+		  	window.location = "/playlist/<?php echo $playlist_data->playlist_id;?>/delete";
+		  	//or delete tong isa na get//
+
+		  }
+		  	
+		}); 
+	});
+
+
+	function init(){
+	 
+	    current = 0;
+	    audio = $('audio');
+	    playlist = $('#playlist');
+	    tracks = playlist.find('li a');
+	    len = tracks.length - 1;
+	    audio[0].volume = 1;
+	//  audio[0].play();
+
+	    playlist.find('a').click(function(e){
+	        //e.preventDefault();
+	        link = $(this);
+	        //console.log('eow pfuh');
+	        current = link.parent().index();
+	        run(link, audio[0]);
+	    });
+
+		$(".well li a").click(function(e){
+			e.preventDefault();
+			var newTrack = $(this).attr('href');
+			$('#audio source').attr('src',newTrack);
+			//alert($('#audio source').attr('src'))
+			audio[0].load();
+		    audio[0].play();
+		    //console.log('ha!');
+
+		    //console.log($('#audio source').attr('src',newTrack)[0]['src'].match('\\d+\.mp3')[0].split("\.mp3")[0]);
+
+		    var id = $('#audio source').attr('src',newTrack)[0]['src'].match('\\d+\.mp3')[0].split("\.mp3")[0];
+
+		    //ajax here for hits
+		   	$.ajax({
+	      		type: 'POST',
+	      		url: '/track/addplay',
+	      		//datatype: 'text',
+	      		data: {
+	      			song_id: id
+	      		}
+	      		//,success: function(data){
+	      		//	//yung napiprint dito ay defined kay tracks controller addPlay method
+			    //    alert(data);
+			    //}
+			    
+			});
+
+		});
+
+	    audio[0].addEventListener('ended',function(e){
+	        current++;
+	        if(current == len){
+	            current = 0;
+	            link = playlist.find('a')[0];
+	        }else{
+	            link = playlist.find('a')[current];    
+	        }
+	        run($(link),audio[0]);
+	    });
+	    
+	    //console.log("hello");
+	}
+
+	function run(link, player){
+	        player.src = link.attr('href');
+	        par = link.parent();
+	        par.addClass('active').siblings().removeClass('active');
+	        audio[0].load();
+	        audio[0].play();
+	}
+
+	$('#audio').click(function() {
+	  if (this.paused == false) {
+	      this.pause();
+	      alert('music paused');
+	  } else {
+	      this.play();
+	      alert('music playing');
+	  }
+	});
+
+</script>
+
+<script type="text/javascript">
+
+	function initAudio() {
+		
+		var supportsAudio = !!document.createElement('audio').canPlayType,
+				audio,
+				loadingIndicator,
+				positionIndicator,
+				timeleft,
+				loaded = false,
+				manualSeek = false;
+
+		if (supportsAudio) {
+			
+
+			var path = function(){
+				<?php
+					foreach ($tracks as $track ) {
+						return '<source src="/tracks/{{$track->path}}.mp3" type="audio/mpeg" />';
+						break;
+					}
+				?>
+			};
+
+
+			var player = '<p class="player"><span id="playtoggle" /><span id="gutter"><span id="loading" /><span id="handle" class="ui-slider-handle" /></span><span id="timeleft" /><audio preload="metadata">'+path+'</source></audio></p>';
+
+
+		  	$(player).insertBefore("hr.afterplayer");
+		
+			audio = $('.player audio').get(0);
+			loadingIndicator = $('.player #loading');
+			positionIndicator = $('.player #handle');
+			timeleft = $('.player #timeleft');
+			
+			if ((audio.buffered != undefined) && (audio.buffered.length != 0)) {
+				$(audio).bind('progress', function() {
+					var loaded = parseInt(((audio.buffered.end(0) / audio.duration) * 100), 10);
+					loadingIndicator.css({width: loaded + '%'});
+				});
+			}
+			else {
+				loadingIndicator.remove();
+			}
+			
+			$(audio).bind('timeupdate', function() {
+				
+				var rem = parseInt(audio.duration - audio.currentTime, 10),
+						pos = (audio.currentTime / audio.duration) * 100,
+						mins = Math.floor(rem/60,10),
+						secs = rem - mins*60;
+				
+				timeleft.text('-' + mins + ':' + (secs < 10 ? '0' + secs : secs));
+				if (!manualSeek) { positionIndicator.css({left: pos + '%'}); }
+				if (!loaded) {
+					loaded = true;
+					
+					$('.player #gutter').slider({
+							value: 0,
+							step: 0.01,
+							orientation: "horizontal",
+							range: "min",
+							max: audio.duration,
+							animate: true,					
+							slide: function(){							
+								manualSeek = true;
+							},
+							stop:function(e,ui){
+								manualSeek = false;					
+								audio.currentTime = ui.value;
+							}
+						});
+				}
+				
+			}).bind('play',function(){
+				$("#playtoggle").addClass('playing');
+			}).bind('pause ended', function() {
+				$("#playtoggle").removeClass('playing');		
+			});		
+			
+			$("#playtoggle").click(function() {			
+				if (audio.paused) {	
+					audio.play();	
+			      	$.ajax({
+			      		type: 'POST',
+			      		url: '/track/addplay',
+			      		data: {
+			      			song_id: "<?php echo $track->path?>"
+			      		}
+					});
+				} 
+				else { audio.pause(); }			
+			});
+
+		}
+		
+		
+	}
+	initAudio();
+
+
+	$.ajaxSetup({
+	   headers: { 'X-CSRF-Token' : $('meta[name=_token]').attr('content') }
+	});
+</script>
+
+
+@endsection

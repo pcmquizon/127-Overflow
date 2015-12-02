@@ -1,0 +1,393 @@
+<?php $__env->startSection('title'); ?>
+	<title>View Playlist</title>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('custommeta'); ?>
+	<meta name="_token" content="<?php echo csrf_token(); ?>"/>
+<?php $__env->stopSection(); ?>
+
+
+<?php $__env->startSection('content'); ?>
+<style>
+
+	.active a{
+		/*color:#5DB0E6;*/
+		text-decoration:none;
+	}
+	#playlist,audio{
+		/*background:#666;
+		width:40%;*/
+	}
+	#playlist li a{
+		/*color:#eeeedd;*/
+		/*background:#333;*/
+		display:block;
+		margin-top:1px;
+	}	
+	li a:hover{
+		text-decoration:none;
+	}
+
+	label.col-lg-3.control-label{
+		padding-top: 0px;
+	}
+
+</style>
+
+<div id="page-wrapper">
+	<div class="container-fluid">
+		
+		<div class="row" style="margin-bottom:15px !important;">
+			<h1 class="page-header"><?php echo e($playlist_data->playlist_name); ?></h1>
+			<ul class="list-inline" style="margin-top:30px;">
+				<li class="alert">
+					<i class="glyphicon glyphicon-trash"></i><a href="/playlist/<?php echo e($playlist_data->playlist_id); ?>/delete"> Delete Playlist</a>
+
+					<?php /*/playlist/<?php echo e($playlist_data->playlist_id); ?>/*/ ?>
+				</li>
+				<li>
+					<i class="glyphicon glyphicon-edit"></i><a href="/playlist/<?php echo e($playlist_data->playlist_id); ?>/edit"> Edit Playlist</a>
+				</li>
+				<li>
+					<small><i class="glyphicon glyphicon-plus"></i></small><a href="/playlist/<?php echo e($playlist_data->playlist_id); ?>/add"> Add Songs to Playlist</a>
+				</li>
+				<li>
+				<small><i class="glyphicon glyphicon-minus"></i></small><a href="/playlist/<?php echo e($playlist_data->playlist_id); ?>/remove"> Remove Songs from Playlist</a>
+			</li>
+			</ul>
+		</div>
+		
+			<div class="row">	
+				<div class="col-lg-8 col-md-6 col-sm-12 personal-info">				
+
+					<form class="form-horizontal" role="form">
+						<div class="form-group">
+							<label class="col-lg-3 control-label">Playlist name:</label>
+							<div class="col-lg-8">
+								<?php echo e($playlist_data->playlist_name); ?>
+
+							</div>
+						</div>
+						<?php if($tracks): ?>
+							<div class="form-group">
+								<label class="col-lg-3 control-label">Playlist contents:</label>
+								<div class="col-lg-8">
+									<ul style="list-style:none; padding:0px;">
+										<?php foreach($tracks as $track): ?>
+											<?php if($track->path): ?>
+												<li>
+													<a href="/track/<?php echo e($track->path); ?>/details/">
+														<?php echo e($track->track_name); ?>
+
+													</a>
+												</li>
+											<?php else: ?>
+												<li>
+													No melodies yet.
+												</li>
+											<?php endif; ?>
+										<?php endforeach; ?>
+									</ul>
+								</div>
+							</div>
+						<?php endif; ?>
+					</form>
+				</div>
+			</div>
+
+			<div class="well col-lg-4">
+				<?php if($track->path): ?>
+				
+					<audio id="audio" preload="auto" tabindex="0" loop="loop">
+
+					<?php foreach($tracks as $track): ?>
+				 	 	<source src="/tracks/<?php echo e($track->path); ?>.mp3" type="audio/mpeg" />
+				  		<?php break;?>
+				  	<?php endforeach; ?>
+					</audio>
+
+					<div>
+	    				<button class="play">Play</button>
+	    				<button class="pause">Pause</button>
+					</div>
+
+					<?php $ctr= 0; ?>
+					<hr class="afterplayer" style="margin: 10px 0px;"/>
+					<p>
+						<ul id="playlist" style="list-style:none; padding:0px; margin:0px;">
+				        	<?php foreach($tracks as $track): ?>
+				        		<p>
+						       <?php if($ctr==0): ?>	<li class="active">
+						       <?php else: ?> <li>
+						       <?php endif; ?> 
+									<a class="track" href="/tracks/<?php echo e($track->path); ?>.mp3"><?php echo e($track->track_name); ?></a>
+								</li>
+									<?php $ctr++;?>
+								</p>
+						    <?php endforeach; ?>
+						</ul>
+					</p>
+				<?php else: ?>
+					No melodies yet, <a href="/playlist/<?php echo e($playlist_data->playlist_id); ?>/add">add</a> melodies now!
+				<?php endif; ?>
+			</div>
+
+
+
+	</div>
+</div>
+<?php $__env->stopSection(); ?>
+	
+<?php $__env->startSection('customjs'); ?>
+
+
+<script type="text/javascript">
+
+	var audio;
+	var playlist;
+	var tracks;
+	var current;
+
+
+
+
+	 $(".pause").click(function(){
+         $('audio').trigger('pause');
+     });
+
+
+     $(".play").click(function(){
+		var z = document.getElementById('audio');
+		var newTrack = $(this).attr('href');
+		var id = $('#audio source').attr('src',newTrack)[0]['src'].match('\\d+\.mp3')[0].split("\.mp3")[0];
+
+		if(z.paused){
+			//console.log($('audio').trigger('play')==false);
+			$('audio').trigger('play');
+	      	$.ajax({
+	      		type: 'POST',
+	      		url: '/track/addplay',
+	      		//datatype: 'text',
+	      		data: {
+	      			song_id: id
+	      		}
+	      		/*
+	      		,success: function(data){
+	      			//yung napiprint dito ay defined kay tracks controller addPlay method
+			        alert(data);
+			    }
+			    //*/
+			});
+      	} 	
+     });
+
+	init();
+
+	$(document).on("click", ".alert", function(e) {
+		e.preventDefault();
+	    bootbox.confirm("Are you sure?", function(result) {
+		  console.log("Confirm result: "+result);
+		  if(result==true){
+		  	//return true;
+		  	
+		  	// mag ajax ka dito //
+		  	window.location = "/playlist/<?php echo $playlist_data->playlist_id;?>/delete";
+		  	//or delete tong isa na get//
+
+		  }
+		  	
+		}); 
+	});
+
+
+	function init(){
+	 
+	    current = 0;
+	    audio = $('audio');
+	    playlist = $('#playlist');
+	    tracks = playlist.find('li a');
+	    len = tracks.length - 1;
+	    audio[0].volume = 1;
+	//  audio[0].play();
+
+	    playlist.find('a').click(function(e){
+	        //e.preventDefault();
+	        link = $(this);
+	        //console.log('eow pfuh');
+	        current = link.parent().index();
+	        run(link, audio[0]);
+	    });
+
+		$(".well li a").click(function(e){
+			e.preventDefault();
+			var newTrack = $(this).attr('href');
+			$('#audio source').attr('src',newTrack);
+			//alert($('#audio source').attr('src'))
+			audio[0].load();
+		    audio[0].play();
+		    //console.log('ha!');
+
+		    //console.log($('#audio source').attr('src',newTrack)[0]['src'].match('\\d+\.mp3')[0].split("\.mp3")[0]);
+
+		    var id = $('#audio source').attr('src',newTrack)[0]['src'].match('\\d+\.mp3')[0].split("\.mp3")[0];
+
+		    //ajax here for hits
+		   	$.ajax({
+	      		type: 'POST',
+	      		url: '/track/addplay',
+	      		//datatype: 'text',
+	      		data: {
+	      			song_id: id
+	      		}
+	      		//,success: function(data){
+	      		//	//yung napiprint dito ay defined kay tracks controller addPlay method
+			    //    alert(data);
+			    //}
+			    
+			});
+
+		});
+
+	    audio[0].addEventListener('ended',function(e){
+	        current++;
+	        if(current == len){
+	            current = 0;
+	            link = playlist.find('a')[0];
+	        }else{
+	            link = playlist.find('a')[current];    
+	        }
+	        run($(link),audio[0]);
+	    });
+	    
+	    //console.log("hello");
+	}
+
+	function run(link, player){
+	        player.src = link.attr('href');
+	        par = link.parent();
+	        par.addClass('active').siblings().removeClass('active');
+	        audio[0].load();
+	        audio[0].play();
+	}
+
+	$('#audio').click(function() {
+	  if (this.paused == false) {
+	      this.pause();
+	      alert('music paused');
+	  } else {
+	      this.play();
+	      alert('music playing');
+	  }
+	});
+
+</script>
+
+
+
+<script type="text/javascript">
+
+	function initAudio() {
+		
+		var supportsAudio = !!document.createElement('audio').canPlayType,
+				audio,
+				loadingIndicator,
+				positionIndicator,
+				timeleft,
+				loaded = false,
+				manualSeek = false;
+
+		if (supportsAudio) {
+			
+
+			var path = function(){
+				<?php
+					foreach ($tracks as $track ) {
+						return '<source src="/tracks/{{$track->path}}.mp3" type="audio/mpeg" />';
+					}
+				?>
+			};
+
+
+			var player = '<p class="player"><span id="playtoggle" /><span id="gutter"><span id="loading" /><span id="handle" class="ui-slider-handle" /></span><span id="timeleft" /><audio preload="metadata">'+path+'</source></audio></p>';
+
+
+		  	$(player).insertBefore("hr.afterplayer");
+		
+			audio = $('.player audio').get(0);
+			loadingIndicator = $('.player #loading');
+			positionIndicator = $('.player #handle');
+			timeleft = $('.player #timeleft');
+			
+			if ((audio.buffered != undefined) && (audio.buffered.length != 0)) {
+				$(audio).bind('progress', function() {
+					var loaded = parseInt(((audio.buffered.end(0) / audio.duration) * 100), 10);
+					loadingIndicator.css({width: loaded + '%'});
+				});
+			}
+			else {
+				loadingIndicator.remove();
+			}
+			
+			$(audio).bind('timeupdate', function() {
+				
+				var rem = parseInt(audio.duration - audio.currentTime, 10),
+						pos = (audio.currentTime / audio.duration) * 100,
+						mins = Math.floor(rem/60,10),
+						secs = rem - mins*60;
+				
+				timeleft.text('-' + mins + ':' + (secs < 10 ? '0' + secs : secs));
+				if (!manualSeek) { positionIndicator.css({left: pos + '%'}); }
+				if (!loaded) {
+					loaded = true;
+					
+					$('.player #gutter').slider({
+							value: 0,
+							step: 0.01,
+							orientation: "horizontal",
+							range: "min",
+							max: audio.duration,
+							animate: true,					
+							slide: function(){							
+								manualSeek = true;
+							},
+							stop:function(e,ui){
+								manualSeek = false;					
+								audio.currentTime = ui.value;
+							}
+						});
+				}
+				
+			}).bind('play',function(){
+				$("#playtoggle").addClass('playing');
+			}).bind('pause ended', function() {
+				$("#playtoggle").removeClass('playing');		
+			});		
+			
+			$("#playtoggle").click(function() {			
+				if (audio.paused) {	
+					audio.play();	
+			      	$.ajax({
+			      		type: 'POST',
+			      		url: '/track/addplay',
+			      		data: {
+			      			song_id: "<?php echo $track->path?>"
+			      		}
+					});
+				} 
+				else { audio.pause(); }			
+			});
+
+		}
+		
+		
+	}
+	initAudio();
+
+
+	$.ajaxSetup({
+	   headers: { 'X-CSRF-Token' : $('meta[name=_token]').attr('content') }
+	});
+</script>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('dashboardLayout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

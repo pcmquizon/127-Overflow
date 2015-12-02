@@ -1,0 +1,162 @@
+@extends('master')
+
+@section('title')
+	@yield('title')
+@stop
+		
+@section('customcss')
+    <!-- Custom CSS -->
+    <link href="/css/sb-admin.css" rel="stylesheet">
+    <!-- Morris Charts CSS -->
+    <link href="/css/plugins/morris.css" rel="stylesheet">
+    <!-- Custom Fonts -->
+    <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+@stop
+
+@section('navbar')
+        <!-- Navigation -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">Overflow</a>
+            </div>
+            <!-- Top Menu Items -->
+            <ul class="nav navbar-right top-nav">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i> {{Auth::user()->username}} <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                        <li>
+                            <a href="/user/profile"><i class="fa fa-fw fa-user"></i> Profile</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="/auth/logout"><i class="fa fa-fw fa-power-off"></i> Log Out</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+    
+    @include('searchbar')
+
+            <!-- Sidebar Menu Items - These collapse to the responsive navigation menu on small screens -->
+            <div class="collapse navbar-collapse navbar-ex1-collapse">
+                <ul class="nav navbar-nav side-nav">
+                    <li>
+                        <a href="/user/dashboard"><i class="glyphicon glyphicon-headphones"></i> Melody Feed</a>
+                    </li>
+                    @if( Auth::user()->role==='admin' )
+                        <li>
+                            <a href="javascript:;" data-toggle="collapse" data-target="#user"><i class="glyphicon glyphicon-user"></i> Users <i class="fa fa-fw fa-caret-down"></i></a>
+                            <ul id="user" class="collapse">
+                                <li>
+                                    <a href="/user/show/approved"><i class="glyphicon glyphicon-ok-sign"></i> Approved</a>
+                                </li>
+                                <li>
+                                    <a href="/user/pending"><i class="glyphicon glyphicon-question-sign"></i> Pending</a>
+                                </li>
+                            </ul>
+                        </li>
+                    @endif
+                    <li>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#playlist"><i class="glyphicon glyphicon-equalizer"></i> Playlist <i class="fa fa-fw fa-caret-down"></i></a>
+                        <ul id="playlist" class="collapse">
+                            <li>
+                                <a href="/playlist/create"><i class="glyphicon glyphicon-plus"></i> Create Playlist</a>
+                            </li>
+                            <li>
+                                <a href="/playlist"><i class="glyphicon glyphicon-list"></i> View Playlist</a>
+                            </li>
+                            <li>
+                                <a href="/playlist/edit"><i class="glyphicon glyphicon-edit"></i> Edit Playlist</a>
+                            </li>
+                            <li>
+                                <a href="/playlist/remove"><i class="glyphicon glyphicon-trash"></i> Delete Playlist</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#music"><i class="glyphicon glyphicon-music"></i> Music <i class="fa fa-fw fa-caret-down"></i></a>
+                        <ul id="music" class="collapse">
+                            {{--
+                            <li>
+                                <a href="/track/search"><i class="glyphicon glyphicon-search"></i> Search Music</a>
+                            </li>
+                            --}}
+                            <li>
+                                <a href="/track/create"><i class="glyphicon glyphicon-upload"></i> Upload Music</a>
+                            </li>
+                            <li>
+                                <a href="/track"><i class="glyphicon glyphicon-list"></i> View Music</a>
+                            </li>
+                            <li>
+                                <a href="/track/recommend"><i class="glyphicon glyphicon-share"></i> Recommend Music</a>
+                            </li>
+                            @if( Auth::user()->role==='admin' )
+                                <li>
+                                    <a href="/track/trending"><i class="glyphicon glyphicon-stats"></i> Trending Music</a>
+                                </li>
+                                <li>
+                                    <a href="/track/edit"><i class="glyphicon glyphicon-edit"></i> Edit Music</a>
+                                </li>
+                                <li>
+                                    <a href="/track/remove"><i class="glyphicon glyphicon-trash"></i> Delete Music</a>
+                                </li>
+                            @endif
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#artist"><i class="glyphicon glyphicon-star-empty"></i> Artist <i class="fa fa-fw fa-caret-down"></i></a>
+                        <ul id="artist" class="collapse">
+                            <li>
+                                <a href="/artist/create"><i class="glyphicon glyphicon-plus"></i> Add Artist</a>
+                            </li>
+                            <li>
+                                <a href="/artist"><i class="glyphicon glyphicon-list"></i> View Artist</a>
+                            </li>
+                            @if( Auth::user()->role==='admin' )
+                                <li>
+                                    <a href="/artist/edit"><i class="glyphicon glyphicon-edit"></i> Edit Artist</a>
+                                </li>
+                                <li>
+                                    <a href="/artist/remove"><i class="glyphicon glyphicon-trash"></i> Delete Artist</a>
+                                </li>
+                            @endif
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="javascript:;" data-toggle="collapse" data-target="#album"><i class="glyphicon glyphicon-cd"></i> Album <i class="fa fa-fw fa-caret-down"></i></a>
+                        <ul id="album" class="collapse">
+                            <li>
+                                <a href="/album/create"><i class="glyphicon glyphicon-plus"></i> Add Album</a>
+                            </li>
+                            <li>
+                                <a href="/album"><i class="glyphicon glyphicon-list"></i> View Album</a>
+                            </li>
+                            @if( Auth::user()->role==='admin' )
+                                <li>
+                                    <a href="/album/edit"><i class="glyphicon glyphicon-edit"></i> Edit Album</a>
+                                </li>
+                                <li>
+                                    <a href="/album/remove"><i class="glyphicon glyphicon-trash"></i> Delete Album</a>
+                                </li>
+                            @endif
+                        </ul>
+                    </li>
+
+
+            </div>
+            <!-- /.navbar-collapse -->
+        </nav>
+@stop
+
+@section('content')
+	@yield('content')
+@stop
+

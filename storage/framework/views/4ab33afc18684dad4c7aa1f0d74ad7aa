@@ -1,0 +1,71 @@
+<?php $__env->startSection('title'); ?>
+    <title>View approved Users</title>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+<?php if($users): ?> 
+	<div class="container col-lg-12">
+		<h1> Approved Users </h1>
+
+		<hr class="featurette-divider" style="margin-top:0px; margin-bottom:20px;">
+
+		<table>
+			<thead>
+				<tr>
+					<th> Select date to view specific users approved</th>
+				</tr>
+			</thead>
+			
+			<tbody>
+				<?php echo Form::open(['url' => '/user/show/approved/on', 'method' => 'post', 'class' => 'col-lg-4']); ?>
+
+				<tr>
+					<td>
+						<select class="form-control" name="date"/>
+							<?php foreach($dates as $date): ?> 
+								<option> <?php echo e($date->date_approved); ?> </option>
+							<?php endforeach; ?>
+
+						</select> 
+						<input class="btn btn-primary" style="margin-top:1em;"type="submit" value="Search"/>
+					</td>
+				</tr>
+				<?php echo Form::close(); ?>
+
+			</tbody>
+		</table>		
+	
+		<hr class="featurette-divider" style="margin-top:20px; margin-bottom:20px;">
+	
+
+	</div>
+
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th>Username</th>
+				<th>Email Address</th>
+				<th>Date Joined</th>
+				<!--<th>Action</th>-->
+			</tr>
+		</thead>
+		<tbody>
+			<?php foreach($users as $user): ?>
+				<tr>
+					<td><?php echo e($user->username); ?></td>
+					<td><?php echo e($user->email); ?></td>
+					<td><?php echo e($user->created_at); ?></td>
+				<!--
+					<td><a href="/user/deactivate/<?php echo e($user->id); ?>"><i class="glyphicon glyphicon-remove-circle"></i> Deactivate</td>
+				-->
+				</tr>
+			<?php endforeach; ?>
+		</tbody>
+	</table>
+
+<?php else: ?> <h1> No user is approved today! Nyay! </h1>
+
+<?php endif; ?>
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('dashboardLayout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,34 @@
+<?php $__env->startSection('title'); ?>
+    <title>View pending users</title>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+
+	<?php if($users): ?>
+		<h1> Pending Users </h1>
+		<table class="table table-hover">
+			<thead>
+				<tr>
+					<th>Username</th>
+					<th>Date Joined</th>
+					<th>Action</th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php foreach($users as $user): ?>
+					<tr>
+						<td><?php echo e($user->username); ?></td>
+						<td><?php echo e($user->created_at); ?></td>
+						<td><a href="/user/approve/<?php echo e($user->id); ?>"><i class="glyphicon glyphicon-ok-circle"></i> Approve</td>
+					</tr>
+				<?php endforeach; ?>
+			</tbody>
+		</table>
+	<?php else: ?> <h1> No users to approve!! Yay!</h1>
+
+	<?php endif; ?>
+
+	
+
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('dashboardLayout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

@@ -1,0 +1,64 @@
+<?php $__env->startSection('title'); ?>
+    <title>View Albums</title>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+
+<?php /*dd($albums)*/ ?>
+
+<?php if($album_data): ?> 
+	<h1> Albums </h1>
+	
+	<hr class="featurette-divider" style="margin-top:20px; margin-bottom:20px;">
+
+	<table class="table table-hover">
+		<thead>
+			<tr>
+				<th>Name</th>
+				<th>Artist</th>
+				<th>Recording Company</th>
+				<th>Added on</th>
+				<th>Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			
+			<?php foreach($album_data as $album_entry): ?>
+				<tr>
+					<td>
+						<a href="/album/<?php echo e($album_entry->album_id); ?>/details">
+							<?php echo e($album_entry->album_name); ?>
+
+						</a>						
+					</td>					
+					<td>
+						<?php echo e($album_entry->artist_name); ?>
+
+					</td>
+					<td>
+						<?php echo e($album_entry->recording_company); ?>
+
+					</td>
+					<td><?php echo e($album_entry->created_at); ?></td>
+					<td>
+						<?php echo Form::open(
+							array('url' => 'album/'.$album_entry->album_id,'class' => 'form', 'method' => 'DELETE', 'style' => 'margin:0px;'));; ?>
+
+						<?php echo Form::submit('Remove album', ['class'=>'btn btn-danger']); ?>
+
+						<?php echo Form::close(); ?>
+
+					</td>
+				</tr>
+			<?php endforeach; ?>
+
+		</tbody>
+	</table>
+
+<?php else: ?> <h1> No albums to remove yet, <a href="/album/create">create</a> one now! </h1>
+
+<?php endif; ?>
+
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('dashboardLayout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

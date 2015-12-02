@@ -1,0 +1,75 @@
+<?php $__env->startSection('title'); ?>
+				<title>Profile</title>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+<div id="page-wrapper">
+	<div class="container-fluid">
+		<h1 class="page-header">Profile</h1>
+			<div class="row">
+				<!-- left column -->
+				<div class="col-md-4 col-sm-6 col-xs-12">
+					<div class="text-center">
+						<img src="http://lorempixel.com/200/200/people/9/" class="avatar img-circle img-thumbnail" alt="avatar">
+					</div>
+					<div class="text-center">
+						<a href="/user/profile/edit">Edit Profile</a>
+					</div>
+
+
+
+				</div>
+				
+				<!-- edit form column -->
+				<div class="col-md-8 col-sm-6 col-xs-12 personal-info">
+					<div class="alert alert-info alert-dismissable">
+						<a class="panel-close close" data-dismiss="alert">×</a> 
+						<i class="fa fa-coffee"></i>
+						This is an <strong>.alert</strong>. Use this to show important messages to the user.
+					</div>
+				
+					<h3>Personal info</h3>
+					<form class="form-horizontal" role="form">
+						<div class="form-group">
+							<label class="col-lg-3 control-label">First name:</label>
+							<div class="col-lg-8">
+								<?php echo e(Auth::user()->firstName); ?>
+
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-3 control-label">Last name:</label>
+							<div class="col-lg-8">
+								<?php echo e(Auth::user()->lastName); ?>
+
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-lg-3 control-label">Email:</label>
+							<div class="col-lg-8">
+								<?php echo e(Auth::user()->email); ?>
+
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-3 control-label">Username:</label>
+							<div class="col-md-8">
+								<?php echo e(Auth::user()->username); ?>
+
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-md-3 control-label">Password:</label>
+							<div class="col-md-8">
+								<input type="password" name="password" class="col-md-8 btn-success[disabled]" value="password" disabled readonly/>
+								<?php /*Auth::user()->password*/ ?>
+							</div>
+						</div>
+				</div>
+			</div>
+	</div>
+</div>
+
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('dashboardLayout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

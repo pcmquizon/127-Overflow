@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		
+		<meta name="description" content="">
+		<meta name="author" content="">
+
+		<link rel="icon" href="../../favicon.ico">
+		<?php echo $__env->yieldContent('custommeta'); ?>
+		<?php echo $__env->yieldContent('title'); ?>
+
+		<!-- Bootstrap core CSS -->
+		<link href="/dist/css/bootstrap.min.css" rel="stylesheet">
+		<link href="/css/sticky-footer.css" rel="stylesheet">
+		<link href="/css/carousel.css" rel="stylesheet">
+
+		<link href='/css/Fjalla-One-and-Average.css' rel='stylesheet' type='text/css'>
+
+		<?php echo $__env->yieldContent('customcss'); ?>
+	</head>
+	<body>		
+		<div id="container">
+			<?php echo $__env->yieldContent('navbar'); ?>
+		</div>	
+		
+		<div id="container">
+			<div id="wrapper">
+				<div id="page-wrapper">
+					<?php echo $__env->make('flash::message', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
+					<?php echo $__env->yieldContent('content'); ?>
+				</div>
+			</div>
+		</div>
+		
+		<div id="container">
+			<div id="wrapper">
+				<div id="page-wrapper">
+					<?php echo $__env->yieldContent('footer'); ?>
+				</div>
+			</div>
+		</div>
+		<?php /*<?php echo $__env->yieldContent('modal'); ?>*/ ?>
+		
+		<!-- Bootstrap core JavaScript
+    ================================================== -->
+		<!-- Placed at the end of the document so the pages load faster -->
+		<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>-->
+		<script src="/js/jquery/1.11.3/jquery.min.js"></script>
+		<script src="/dist/js/bootstrap.min.js"></script>
+		<script src="/js/bootbox/4.4.0/bootbox.min.js"></script>
+		<script src="/js/jquery/ui/1.11.4/jquery.ui.min.js"></script>
+
+		<!-- Just to make our placeholder images work. Don't actually copy the next line! -->
+		<script src="/assets/js/vendor/holder.min.js"></script>
+		<script>
+		    $('#flash-overlay-modal').modal();
+		</script>
+		<?php echo $__env->yieldContent('customjs'); ?>
+		
+		
+		
+		
+	</body>
+</html>

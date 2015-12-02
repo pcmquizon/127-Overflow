@@ -1,0 +1,65 @@
+<?php $__env->startSection('title'); ?>
+	<title>Edit Playlist</title>
+<?php $__env->stopSection(); ?>
+
+<?php $__env->startSection('content'); ?>
+<style> 
+	.form-control { 
+		margin-bottom:5px;
+	}
+	h1 {
+		text-align:center;
+		color: #3A3A3A;
+		box-shadow: 0px 0px 5px #000;
+		margin-bottom: 40px;
+		padding: 10px;
+	}
+</style>
+
+<div id="page-wrapper">
+	<div class="container-fluid">
+		<h1 class="page-header">
+				Edit <?php echo e($playlist->name); ?>
+
+		</h1>
+			<div class="row">
+				<div class="col-md-8 col-sm-6 col-xs-12">
+
+
+				<?php echo Form::open(
+				    array(
+				        'url' => "/playlist/".$playlist->id, 
+				        'class' => 'form', 
+				        'method' => 'PUT',
+				        'files' => true,
+				        'enctype' => 'multipart/form-data'));; ?>
+
+
+
+					<div class="form-group">
+						<?php echo Form::label('name','Playlist Name:', ['class'=>'col-lg-3 control-label']); ?>	
+						<div class="col-lg-8">
+							<?php echo Form::text('name', $playlist->name, ['class'=>'form-control'] ); ?>
+
+						</div>
+					</div>
+
+					<div class="form-group">
+						<label class="col-md-3 control-label"></label>
+						<div class="col-md-8">
+							<?php echo Form::submit('Save changes', ['class'=>'btn btn-primary']); ?>
+
+							<span></span><span></span>
+							<a href="/playlist/<?php echo e($playlist->id); ?>/details/"><input class="btn btn-danger" type="button" value="Cancel" /></a>
+							<?php echo Form::close(); ?>
+
+						</div>
+					</div>
+				</div>
+			</div>
+	</div>
+</div>
+
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('dashboardLayout', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>

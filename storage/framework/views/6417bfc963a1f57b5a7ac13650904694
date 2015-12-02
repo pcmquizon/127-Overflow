@@ -1,0 +1,34 @@
+
+<?php echo Form ::open (array('route' => 'sessions.store')); ?>
+
+
+<ul>
+
+	 <li> 
+
+	 		<?php echo Form ::label('username','username'); ?>						
+	 		<?php echo Form ::text('username'); ?>
+
+
+	 </li>
+
+
+
+	 <li> 
+
+	 		<?php echo Form ::label('password','password'); ?>
+
+	 		<?php echo Form ::password('password'); ?>
+
+	 		
+	 </li>
+
+
+	 <li> 
+	
+	 		<?php echo Form::submit(); ?>
+
+
+	 </li>
+
+<?php echo Form::close(); ?>
