@@ -1,1 +1,1 @@
-A CMSC 127 Project implemented using Laravel 5.1
+A CMSC 127 Project implemented using Laravel 5.1 
