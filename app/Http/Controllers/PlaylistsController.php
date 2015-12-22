@@ -33,19 +33,34 @@ class PlaylistsController extends Controller
     public function index()
     {
 
-        $playlists = DB::table('playlists')
+        if(\Auth::user()->role==='user'){
+            $playlists = DB::table('playlists')
+                    ->where('creator_id', \Auth::user()->id)
                     ->get();
-            
+         
+        }
+        else{
+            $playlists = DB::table('playlists')
+                            ->get();   
+        }
+
         return view('playlist.index',
-                    ['playlists' => $playlists]);                
-    }
+                    ['playlists' => $playlists]);
+        }
 
 
     public function editList()
     {
 
-        $playlists = DB::table('playlists')
-                    ->get();
+        if(\Auth::user()->role==='user'){
+            $playlists = DB::table('playlists')
+                    ->where('creator_id', \Auth::user()->id)
+                    ->get();         
+        }
+        else{
+            $playlists = DB::table('playlists')
+                            ->get();   
+        }
             
         return view('playlist.list',
                     ['playlists' => $playlists]);                
@@ -53,9 +68,15 @@ class PlaylistsController extends Controller
 
     public function removeList()
     {
-
-        $playlists = DB::table('playlists')
-                    ->get();
+        if(\Auth::user()->role==='user'){
+            $playlists = DB::table('playlists')
+                    ->where('creator_id', \Auth::user()->id)
+                    ->get();         
+        }
+        else{
+            $playlists = DB::table('playlists')
+                            ->get();   
+        }
 
         //dd($playlists);
             
